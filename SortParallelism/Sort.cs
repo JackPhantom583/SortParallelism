@@ -8,14 +8,11 @@ namespace SortParallelism
 {
     class Sort
     {
-        private int[] array;
         public string kindsort;
-        public Sort(int[] Array)
+
+        public int[] BubbleSort(int[] array)
         {
-            array = Array;
-        }
-        public int[] BubbleSort()
-        {
+            int[] ar = array;
             kindsort = "bubble";
             var len = array.Length;
             for (var i = 1; i < len; i++)
@@ -32,8 +29,9 @@ namespace SortParallelism
             }
             return array;
         }
-        public int[] ShakerSort()
+        public int[] ShakerSort(int[] array)
         {
+            int[] ar = array;
             kindsort = "shaker";
             for (var i = 0; i < array.Length / 2; i++)
             {
@@ -67,8 +65,9 @@ namespace SortParallelism
             }
             return array;
         }
-        public int[] ShellSort()
+        public int[] ShellSort(int[] array)
         {
+            int[] ar = array; ;
             kindsort = "shell";
             var d = array.Length / 2;
             while (d >= 1)

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace SortParallelism
 {
@@ -14,11 +15,14 @@ namespace SortParallelism
     {
         private int size;
         private int[] DirtArray;
-        private int[] ClearArray;
         private Random rnd = new Random();
         private Sort S;
 
+        Thread t1;
 
+        Thread t2;
+
+        Thread t3;
         public Form1()
         {
             InitializeComponent();
@@ -31,31 +35,31 @@ namespace SortParallelism
             {
                 DirtArray[i] = rnd.Next(0, 9);
             }
-            S = new Sort(DirtArray);
+            S = new Sort();
+            t1 = new Thread(new ThreadStart(BubbleSortThread));
+            t2 = new Thread(new ThreadStart(ShakerSortThread));
+            t3 = new Thread(new ThreadStart(ShellSortThread));
         }
-        public void OutputArray()
+        public void OutputArray(TextBox tb,int[] mass)
         {
-            
-            Array.Copy(DirtArray, ClearArray, size);
             for (int i = 0; i < size; i++)
             {
-                if (S.kindsort == "bubble")
-                {
-                    textBox1.Text += ClearArray[i].ToString();
-                }
-                else if (S.kindsort == "shaker")
-                {
-                    textBox2.Text += ClearArray[i].ToString();
-                }
-                else if (S.kindsort == "shell")
-                {
-                    textBox3.Text += ClearArray[i].ToString();
-                }
-                Console.Write(ClearArray[i]);
+                Console.Write(mass[i]);
             }
             Console.WriteLine();
         }
-
+        public void BubbleSortThread()
+        {
+            OutputArray(textBox1, S.BubbleSort(DirtArray));
+        }
+        public void ShakerSortThread()
+        {
+            OutputArray(textBox2, S.ShakerSort(DirtArray));
+        }
+        public void ShellSortThread()
+        {
+            OutputArray(textBox3, S.ShellSort(DirtArray));
+        }
 
 
 
@@ -66,14 +70,13 @@ namespace SortParallelism
             textBox2.Clear();
             textBox3.Clear();
             size = Convert.ToInt32(textBox4.Text);
-            ClearArray = new int[size];
             CreateArray(size);
-            S.BubbleSort();
-            OutputArray();
-            S.ShakerSort();
-            OutputArray();
-            S.ShellSort();
-            OutputArray();
+            t1.Start();
+            //OutputArray();
+            t2.Start();
+            //OutputArray();
+            t3.Start();
+            //OutputArray();
         }
 
         
