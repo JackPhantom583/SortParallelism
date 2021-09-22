@@ -38,7 +38,7 @@ namespace SortParallelism
             }
             S = new Sort();
             t1 = new Thread(new ThreadStart(BubbleSortThread));
-            t2 = new Thread(new ThreadStart(ShakerSortThread));
+            t2 = new Thread(new ThreadStart(InsertSortThread));
             t3 = new Thread(new ThreadStart(ShellSortThread));
         }
         public void OutputArray(TextBox tb,Label lb1,Label lb2,int[] mass,string st,int p)
@@ -46,8 +46,8 @@ namespace SortParallelism
 
             if (tb.InvokeRequired)
             {
-                lb1.Invoke(new Action(() => lb1.Text = st));
-                lb2.Invoke(new Action(() => lb2.Text = p.ToString()));
+                lb1.Invoke(new Action(() => lb1.Text = "Время: " + st));
+                lb2.Invoke(new Action(() => lb2.Text = "Перестановки: " + p.ToString()));
                 for (int i = 0; i < size; i++)
                 {
                     tb.Invoke(new Action(() => tb.Text += mass[i]));
@@ -63,15 +63,15 @@ namespace SortParallelism
         public void BubbleSortThread()
         {
 
-            OutputArray(textBox1,label6,label11, S.BubbleSort(DirtArray),S.t,S.per);
+            OutputArray(textBox1,label5,label6, S.BubbleSort(DirtArray),S.t,S.per);
         }
-        public void ShakerSortThread()
+        public void InsertSortThread()
         {
-            OutputArray(textBox2,label8,label13, S.ShakerSort(DirtArray),S.t,S.per);
+            OutputArray(textBox2,label7,label8, S.InsertSort(DirtArray),S.t,S.per);
         }
         public void ShellSortThread()
         {
-            OutputArray(textBox3,label10,label15, S.ShellSort(DirtArray),S.t,S.per);
+            OutputArray(textBox3,label9,label10, S.ShellSort(DirtArray),S.t,S.per);
         }
 
 

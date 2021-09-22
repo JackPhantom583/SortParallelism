@@ -13,10 +13,12 @@ namespace SortParallelism
         public string t;
         public int per;
         
-        public int[] BubbleSort(int[] array)
+        public int[] BubbleSort(int[] ar)
         {
             var sw = new Stopwatch();
             sw.Start();
+            int[] array = new int[ar.Length];
+            Array.Copy(ar, array, ar.Length);
             kindsort = "bubble";
             var len = array.Length;
             for (var i = 1; i < len; i++)
@@ -36,65 +38,50 @@ namespace SortParallelism
             t = sw.Elapsed.ToString();
             return array;
         }
-        public int[] ShakerSort(int[] array)
+        public int[] InsertSort(int[] ar)
         {
             var sw = new Stopwatch();
             sw.Start();
-            int[] ar = array;
-            kindsort = "shaker";
-            for (var i = 0; i < array.Length / 2; i++)
-            {
-                var swapFlag = false;
-                for (var j = i; j < array.Length - i - 1; j++)
-                {
-                    if (array[j] > array[j + 1])
-                    {
-                        int temp = array[j];
-                        array[j] = array[j + 1];
-                        array[j + 1] = temp;
-                        swapFlag = true;
-                        per++;
-                    }
-                }
+            int[] array= new int[ar.Length];
+            Array.Copy(ar, array, ar.Length);
+            kindsort = "insert";
+            int len = array.Length;
 
-                for (var j = array.Length - 2 - i; j > i; j--)
+            for (int i = 0; i < len - 1; i++)
+            {
+                for (int j = i + 1; j > 0; j--)
                 {
                     if (array[j - 1] > array[j])
                     {
-                        int temp = array[j];
-                        array[j] = array[j + 1];
-                        array[j + 1] = temp;
-                        swapFlag = true;
-                        per++;
+                        int tmp = array[j - 1];
+                        array[j - 1] = array[j];
+                        array[j] = tmp;
                     }
                 }
-
-                if (!swapFlag)
-                {
-                    break;
-                }
             }
+            return array;
             sw.Stop();
             t = sw.Elapsed.ToString();
             return array;
         }
-        public int[] ShellSort(int[] array)
+        public int[] ShellSort(int[] ar)
         {
             var sw = new Stopwatch();
             sw.Start();
-            int[] ar = array; ;
+            int[] array = new int[ar.Length];
+            Array.Copy(ar, array, ar.Length);
             kindsort = "shell";
             var d = array.Length / 2;
-            while (d > 0)
+            while (d >= 1)
             {
-                for (var i = 0; i < (array.Length - d); i++)
+                for (var i = d; i < array.Length; i++)
                 {
                     var j = i;
-                    while ((j >= d) && (array[j] > array[j + d]))
+                    while ((j >= d) && (array[j-d] > array[j]))
                     {
                         int temp = array[j];
-                        array[j] = array[j + d];
-                        array[j + d] = temp;
+                        array[j] = array[j - d];
+                        array[j - d] = temp;
                         j = j - d;
                         per++;
                     }
